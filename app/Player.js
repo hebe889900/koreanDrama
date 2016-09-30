@@ -1,7 +1,7 @@
 "use strict";
 
-var React = require("react-native");
-var {
+import React,{ Component } from "react";
+import {
   Image,
   StyleSheet,
   Text,
@@ -12,54 +12,57 @@ var {
   ListView,
   Dimensions,
   Modal
-} = React;
+} from 'react-native';
 
-var Icon = require("react-native-vector-icons/FontAwesome"),
-    getImage = require("./helpers/getImage"),
-    HTML = require("react-native-htmlview"),
-    screen = Dimensions.get('window'),
-    ParallaxView = require("react-native-parallax-view");
+import Icon from "react-native-vector-icons/FontAwesome";
+import getImage from "./helpers/getImage";
+import HTML from "react-native-htmlview";
+var screen = Dimensions.get('window');
+import ParallaxView from "react-native-parallax-view";
 
-var api = require("./helpers/api");
+import api from "./helpers/api";
 
-var ShotDetails = require("./ShotDetails");
-var ShotCell = require("./ShotCell");
-var Loading = require("./Loading");
+import ShotDetails from "./ShotDetails";
+import ShotCell from "./ShotCell";
+import Loading from "./Loading";
 
-var Player = React.createClass({
+export default class Player extends Component{
 
-  getInitialState: function() {
-    return {
-      isModalOpen: false,
-      isLoading: true,
-      dataSource: new ListView.DataSource({
-        rowHasChanged: (row1, row2) => row1 !== row2,
-      })
-    };
-  },
+  constructor() {
+        super();
+        this.state = {
+            isModalOpen: false,
+            isLoading: true,
+            dataSource: new ListView.DataSource({
+              rowHasChanged: (row1, row2) => row1 !== row2,
+            })
+        }
+    } 
 
-  componentWillMount: function() {
+  
+
+  componentWillMount() {
     api.getResources(this.props.player.shots_url).then((responseData) => {
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(responseData),
         isLoading: false
       });
     }).done();
-  },
+  }
 
-  openModal: function() {
+  openModal() {
     this.setState({
       isModalOpen: true
     });
-  },
+  }
 
-  closeModal: function() {
+  closeModal() {
     this.setState({
       isModalOpen: false
     });
-  },
+  }
 
-  render: function() {
+  render() {
     return (
       <ParallaxView
       windowHeight={260}
@@ -101,10 +104,9 @@ var Player = React.createClass({
                  style={styles.playerImageModal}/>
         </Modal>
       </ParallaxView>
-    );
-  },
+  }
 
-  renderShots: function() {
+  renderShots {
     return <ListView
       ref="playerShots"
       renderRow={this.renderRow}
@@ -116,14 +118,14 @@ var Player = React.createClass({
     />;
   },
 
-  renderRow: function(shot: Object)  {
+  renderRow(shot: Object)  {
     return <ShotCell
       onSelect={() => this.selectShot(shot)}
       shot={shot}
     />;
   },
 
-  selectShot: function(shot: Object) {
+  selectShot (shot: Object) {
     console.log(shot);
     debugger;
     this.props.navigator.push({
@@ -132,9 +134,9 @@ var Player = React.createClass({
       title: shot.title
     });
   },
-});
+}
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   listStyle: {
     flex: 1,
     backgroundColor: "red"
@@ -211,4 +213,3 @@ var styles = StyleSheet.create({
   }
 });
 
-module.exports = Player;

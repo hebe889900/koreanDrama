@@ -1,7 +1,7 @@
 "use strict";
 
-var React = require("react-native");
-var {
+import React,{ Component } from "react";
+import {
   Image,
   PixelRatio,
   ScrollView,
@@ -15,53 +15,56 @@ var {
   Component,
   Dimensions,
   Modal
-} = React;
+} from 'react-native';
 
-var api = require("./helpers/api");
+import api from "./helpers/api";
 
-var Icon = require("react-native-vector-icons/FontAwesome"),
-    getImage = require("./helpers/getImage"),
-    HTML = require("react-native-htmlview"),
-    screen = Dimensions.get('window'),
-    ParallaxView = require("react-native-parallax-view");
+import Icon from "react-native-vector-icons/FontAwesome";
+import getImage from "./helpers/getImage";
+import HTML from "react-native-htmlview";
+var screen = Dimensions.get('window');
+import ParallaxView from "react-native-parallax-view";
 
-var Player = require("./Player");
-var CommentItem = require("./CommentItem");
-var Loading = require("./Loading");
+import Player from "./Player";
+import CommentItem from "./CommentItem";
+import Loading from "./Loading";
 
-var ShotDetails = React.createClass({
-  getInitialState: function() {
-    return {
-      isModalOpen: false,
-      isLoading: true,
-      dataSource: new ListView.DataSource({
-        rowHasChanged: (row1, row2) => row1 !== row2,
-      }),
-    };
-  },
+export default class ShotDetails extends Component{
 
-  openModal: function() {
+  constructor() {
+        super();
+        this.state = {
+            isModalOpen: false,
+            isLoading: true,
+            dataSource: new ListView.DataSource({
+              rowHasChanged: (row1, row2) => row1 !== row2,
+            })
+        }
+    }  
+
+
+  openModal() {
     this.setState({
       isModalOpen: true
     });
-  },
+  }
 
-  closeModal: function() {
+  closeModal() {
     this.setState({
       isModalOpen: false
     });
-  },
+  }
 
-  componentDidMount: function() {
+  componentDidMount() {
     api.getResources(this.props.shot.comments_url).then((responseData) => {
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(responseData),
         isLoading: false
       });
     }).done();
-  },
+  }
 
-  render: function() {
+  render() {
     var player = this.props.shot.user;
 
     return (
@@ -120,10 +123,9 @@ var ShotDetails = React.createClass({
                  resizeMode="contain"/>
         </Modal>
       </ParallaxView>
-    );
-  },
+  }
 
-  _showModalTransition: function(transition) {
+  _showModalTransition(transition) {
     transition("opacity", {
       duration: 200,
       begin: 0,
@@ -134,9 +136,9 @@ var ShotDetails = React.createClass({
       begin: - screen.height * 2,
       end: screen.height
     });
-  },
+  }
 
-  _hideModalTransition: function(transition) {
+  _hideModalTransition(transition) {
     transition("height", {
       duration: 200,
       begin: screen.height,
@@ -148,17 +150,17 @@ var ShotDetails = React.createClass({
       begin: 1,
       end: 0
     });
-  },
+  }
 
-  selectPlayer: function(player: Object) {
+  selectPlayer(player: Object) {
     this.props.navigator.push({
       component: Player,
       passProps: {player},
       title: player.name
     });
-  },
+  }
 
-  _renderCommentsList: function() {
+  _renderCommentsList() {
     return <View style={styles.sectionSpacing}>
       <View style={styles.separator} />
       <Text style={styles.heading}>Comments</Text>
@@ -170,21 +172,21 @@ var ShotDetails = React.createClass({
         automaticallyAdjustContentInsets={false}
       />
     </View>
-  },
+  }
 
-  renderRow: function(comment: Object) {
+  renderRow(comment: Object) {
     return <CommentItem
       onSelect={() => this.selectPlayer(comment.user)}
       comment={comment} />;
-  },
+  }
 
-  _renderLoading: function() {
+  _renderLoading() {
     return <ActivityIndicatorIOS animating={this.state.isLoading}
                                  style={styles.spinner}/>;
   }
-});
+}
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   spinner: {
     marginTop: 20,
     width: 50
@@ -280,4 +282,3 @@ var styles = StyleSheet.create({
   }
 });
 
-module.exports = ShotDetails;
