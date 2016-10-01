@@ -1,21 +1,52 @@
 {
-  "name": "koreanDrama",
-  "version": "0.0.1",
-  "private": true,
+  "name": "reading",
+  "version": "1.0.1-rc",
+  "description": "iReading App Write In React-Native",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:attentiveness/reading.git"
+  },
   "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start"
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "clear": "cd node_modules; find . -name .babelrc | grep -v packager | xargs rm",
+    "test": "mocha",
+    "lint": "eslint"
   },
   "dependencies": {
-    "react-native-blur": "^0.7.6",
-    "react-native-htmlview": "^0.2.0",
-    "react-native-parallax-view": "git+https://github.com/jesseruder/react-native-parallax-view.git",
-    "react-native-vector-icons": "^0.8.5"
+    "leancloud-storage": "^1.5.0",
+    "react": "~15.3.1",
+    "react-native": "^0.34.1",
+    "react-native-code-push": "^1.14.6-beta",
+    "react-native-device-info": "^0.9.5",
+    "react-native-drawer-layout": "^1.1.0",
+    "react-native-exceptions-manager": "^0.1.4",
+    "react-native-root-toast": "^1.0.3",
+    "react-native-scrollable-tab-view": "^0.6.0",
+    "react-native-timeago": "^0.3.0",
+    "react-native-vector-icons": "^2.1.0",
+    "react-native-wechat": "^1.6.1",
+    "react-redux": "^4.4.5",
+    "redux": "^3.6.0",
+    "redux-logger": "^2.6.1",
+    "redux-saga": "^0.11.1"
   },
   "devDependencies": {
-    "flow-bin": "0.17.0"
-  },
-  "engines": {
-    "node": "4.2.1",
-    "npm": "3.3.x"
+    "babel-core": "^6.16.0",
+    "babel-eslint": "^7.0.0",
+    "babel-polyfill": "^6.16.0",
+    "babel-preset-react-native": "^1.9.0",
+    "chai": "^3.5.0",
+    "enzyme": "^2.4.1",
+    "eslint": "^3.6.1",
+    "eslint-config-airbnb": "^12.0.0",
+    "eslint-plugin-import": "^1.16.0",
+    "eslint-plugin-jsx-a11y": "^2.2.2",
+    "eslint-plugin-react": "^6.3.0",
+    "mocha": "^3.1.0",
+    "react-addons-test-utils": "~15.3.1",
+    "react-dom": "~15.3.1",
+    "react-native-mock": "^0.2.6",
+    "redux-devtools": "^3.3.1"
   }
 }

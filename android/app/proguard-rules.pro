@@ -64,3 +64,20 @@
 -dontwarn java.nio.file.*
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
 -dontwarn okio.**
+
+# stetho
+
+-dontwarn com.facebook.stetho.**
+
+# https://github.com/facebook/react-native/issues/6624#
+-keep class com.facebook.react.bridge.queue.NativeRunnable { *; }
+
+-keep class com.facebook.imagepipeline.gif.** { *; }
+-keep class com.facebook.imagepipeline.webp.** { *; }
+
+-keep class com.tencent.mm.sdk.** {
+   *;
+}
+
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}
